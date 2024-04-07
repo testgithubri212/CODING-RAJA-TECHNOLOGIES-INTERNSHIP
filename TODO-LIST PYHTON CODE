@@ -1,0 +1,73 @@
+
+import json
+import os
+from datetime import datetime
+
+class TodoList:
+    def __init__(self):
+    #Constructor code here
+        self.tasks=[]
+
+def add_task(self,task):
+    self.tasks.append(task)
+
+def remove_task(self,task_index):
+    del self.tasks[task_index]
+
+def mark_task_completed(self,task_index):
+    self.tasks[task_index][completed]=True
+
+def list_tasks(self):
+    if not self.tasks:
+        print("no task found.")
+    else:
+        for index,task in enumerate(self,tasks):
+            print(f"{index + 1}.{task['title']}-priority:{task['priority']},Due Date :{task['due_dtae']},Completed:{task['completed']}")
+
+def save_to_file(self,file_path):
+    with open(file_path,'W')as f:
+        json.dump(self.tasks,f)
+
+def load_from_file(self,file_path):
+    if os.path.exists(file_path):
+        with open(file_path,'r')as f:
+          self.tasks=json.load(f)
+
+def main():
+    todo_list=TodoList()
+    file_path='tasks.json'
+    todo_list.load_from_file(file_path)
+
+while True:
+    print("\nTodo List Menu:")
+    print("1.Add Task")
+    print("2.Remove Task")
+    print("3.Mark Task as Completed")
+    print("4.List Tasks")
+    print("5.Save and Exit")
+
+    choice = input("Enter your choice:")
+
+    if choice == '1':
+        title =input("Enter task title:")
+        priority=input("Enter task priority (high/medium/low):")
+        due_date=input("Enter due date (YYYY-MM-DD):")
+        due_date=datetime.strptime(due_date,'%Y-%m-%d').date()
+        todo_list.add_task({'title':title,'priority':priority,'due_date':str(due_date),'completed':False})
+    elif choice=='2':
+        task_index=int(input("Enter index of task to remove:"))-1
+        todo_list.remove_task(task_index)
+    elif choice =='3':
+        task_index=int(input("Enter index of task to mark as completed:"))-1
+        todo_list.mark_task_completed(task_index)
+    elif choice == '4':
+        todo_list.list_tasks()
+    elif choice == '5':
+        todo_list.save_to_file(file_path)
+        print("Tasks saved.Exiting.")
+        break
+    else:
+        print("invalid choice.Please try again.")
+
+if __name__=="__main__":
+    main()
